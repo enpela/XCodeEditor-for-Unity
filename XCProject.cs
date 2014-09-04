@@ -372,7 +372,7 @@ namespace UnityEditor.XCodeEditor
 //			}
 //		}
 		
-		public PBXDictionary AddFile( string filePath, PBXGroup parent = null, string tree = "SOURCE_ROOT", bool createBuildFiles = true, bool weak = false )
+		public PBXDictionary AddFile( string filePath, PBXGroup parent = null, string tree = "SOURCE_ROOT", bool createBuildFiles = true, bool weak = false, string name = null )
 		{
 			PBXDictionary results = new PBXDictionary();
 			string absPath = string.Empty;
@@ -413,6 +413,9 @@ namespace UnityEditor.XCodeEditor
 			}
 			
 			fileReference = new PBXFileReference( filePath, (TreeEnum)System.Enum.Parse( typeof(TreeEnum), tree ) );
+			if (!string.IsNullOrEmpty(name)) {
+				fileReference.data["name"] = name;
+			}
 			parent.AddChild( fileReference );
 			fileReferences.Add( fileReference );
 			results.Add( fileReference.guid, fileReference );
