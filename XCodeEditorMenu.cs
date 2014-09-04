@@ -12,7 +12,7 @@ namespace UnityEditor.XCodeEditor
 		//[MenuItem ("Build Tools/XCode Editor/DebugTest %t")]
 		static void DebugTest()
 		{	
-			string projectPath = Path.Combine( Directory.GetParent( Application.dataPath ).ToString(), "XCode" );
+//			string projectPath = Path.Combine( Directory.GetParent( Application.dataPath ).ToString(), "XCode" );
 //			Debug.Log( "XcodePath: " + projectPath );
 			
 //			XCProject currentProject = new XCProject( projectPath );
