@@ -360,8 +360,8 @@ namespace UnityEditor.XCodeEditor
 		private bool SerializeString( string aString, StringBuilder builder, bool useQuotes = false, bool readable = false )
 		{
 			// Is a GUID?
-			if( Regex.IsMatch( aString, @"^[A-F0-9]{24}$" ) ) {
-				builder.Append( aString );
+			if( Regex.IsMatch( aString.ToUpper(), @"^[A-F0-9]{24}$" ) ) {
+				builder.Append( aString.ToUpper() );
 				return true;
 			}
 

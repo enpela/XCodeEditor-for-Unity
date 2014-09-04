@@ -16,7 +16,7 @@ namespace UnityEditor.XCodeEditor
 		public string guid {
 			get {
 				if( string.IsNullOrEmpty( _guid ) )
-					_guid = GenerateGuid();
+					_guid = GenerateGuid().ToUpper();
 				
 				return _guid;
 			}
@@ -44,8 +44,8 @@ namespace UnityEditor.XCodeEditor
 		
 		public PBXObject( string guid ) : this()
 		{
-			if( IsGuid( guid ) )
-				_guid = guid;
+			if( IsGuid( guid.ToUpper() ) )
+				_guid = guid.ToUpper();
 		}
 		
 		public PBXObject( string guid, PBXDictionary dictionary ) : this( guid )
