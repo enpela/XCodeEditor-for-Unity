@@ -31,6 +31,7 @@ namespace UnityEditor.XCodeEditor
 		// Objects
 		private PBXDictionary<PBXBuildFile> _buildFiles;
 		private PBXDictionary<PBXGroup> _groups;
+		private PBXDictionary<PBXVariantGroup> _variantGroups;
 		private PBXDictionary<PBXFileReference> _fileReferences;
 		private PBXDictionary<PBXNativeTarget> _nativeTargets;
 		
@@ -146,6 +147,15 @@ namespace UnityEditor.XCodeEditor
 			}
 		}
 		
+		public PBXDictionary<PBXVariantGroup> variantGroups {
+			get {
+				if( _variantGroups == null ) {
+					_variantGroups = new PBXDictionary<PBXVariantGroup>( _objects );
+				}
+				return _variantGroups;
+			}
+		}
+
 		public PBXDictionary<PBXFileReference> fileReferences {
 			get {
 				if( _fileReferences == null ) {
@@ -1005,6 +1015,7 @@ namespace UnityEditor.XCodeEditor
 			PBXDictionary consolidated = new PBXDictionary();
 			consolidated.Append<PBXBuildFile>( this.buildFiles );
 			consolidated.Append<PBXGroup>( this.groups );
+			consolidated.Append<PBXVariantGroup>( this.variantGroups );
 			consolidated.Append<PBXFileReference>( this.fileReferences );
 //			consolidated.Append<PBXProject>( this.project );
 			consolidated.Append<PBXNativeTarget>( this.nativeTargets );
