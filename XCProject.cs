@@ -62,11 +62,11 @@ namespace UnityEditor.XCodeEditor
 			}
 			
 			if( filePath.EndsWith( ".xcodeproj" ) ) {
-				Debug.Log( "Opening project " + filePath );
+//				Debug.Log( "Opening project " + filePath );
 				this.projectRootPath = Path.GetDirectoryName( filePath );
 				this.filePath = filePath;
 			} else {
-				Debug.Log( "Looking for xcodeproj files in " + filePath );
+//				Debug.Log( "Looking for xcodeproj files in " + filePath );
 				string[] projects = System.IO.Directory.GetDirectories( filePath, "*.xcodeproj" );
 				if( projects.Length == 0 ) {
 					Debug.LogWarning( "Error: missing xcodeproj file" );
@@ -938,14 +938,14 @@ namespace UnityEditor.XCodeEditor
 		{	
 			PBXGroup modGroup = this.GetGroup( mod.group );
 			
+//			Debug.Log( "Adding libraries..." );
 //			PBXGroup librariesGroup = this.GetGroup( "Libraries" );
-			Debug.Log( "Adding libraries..." );
 			foreach( XCModFile libRef in mod.libs ) {
 				string completeLibPath = System.IO.Path.Combine( "usr/lib", libRef.filePath );
 				this.AddFile( completeLibPath, modGroup, "SDKROOT", true, libRef.isWeak );
 			}
 			
-			Debug.Log( "Adding frameworks..." );
+//			Debug.Log( "Adding frameworks..." );
 			PBXGroup frameworkGroup = this.GetGroup( "Frameworks" );
 			foreach( string framework in mod.frameworks ) {
 				string[] filename = framework.Split( ':' );
@@ -954,7 +954,7 @@ namespace UnityEditor.XCodeEditor
 				this.AddFile( completePath, frameworkGroup, "SDKROOT", true, isWeak );
 			}
 			
-			Debug.Log( "Adding files..." );
+//			Debug.Log( "Adding files..." );
 			foreach( string filePath in mod.files ) {
 				string absoluteFilePath = System.IO.Path.Combine( mod.path, filePath );
 
@@ -965,19 +965,19 @@ namespace UnityEditor.XCodeEditor
 					this.AddFile( absoluteFilePath, modGroup );
 			}
 			
-			Debug.Log( "Adding folders..." );
+//			Debug.Log( "Adding folders..." );
 			foreach( string folderPath in mod.folders ) {
 				string absoluteFolderPath = System.IO.Path.Combine( mod.path, folderPath );
 				this.AddFolder( absoluteFolderPath, modGroup, (string[])mod.excludes.ToArray( typeof(string) ) );
 			}
 			
-			Debug.Log( "Adding headerpaths..." );
+//			Debug.Log( "Adding headerpaths..." );
 			foreach( string headerpath in mod.headerpaths ) {
 				string absoluteHeaderPath = System.IO.Path.Combine( mod.path, headerpath );
 				this.AddHeaderSearchPaths( absoluteHeaderPath );
 			}
 
-			Debug.Log( "Configure build settings..." );
+//			Debug.Log( "Configure build settings..." );
 			Hashtable buildSettings = mod.buildSettings;
 			if( buildSettings.ContainsKey("OTHER_LDFLAGS") )
 			{
