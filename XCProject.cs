@@ -672,7 +672,16 @@ namespace UnityEditor.XCodeEditor
 			}
 			
 			foreach( KeyValuePair<string, PBXFileReference> current in fileReferences ) {
-				if( !string.IsNullOrEmpty( current.Value.name ) && current.Value.name.CompareTo( name ) == 0 ) {
+				if( !string.IsNullOrEmpty( current.Value.name ) && current.Value.name == name ) {
+					return current.Value;
+				}
+				if( !string.IsNullOrEmpty( current.Value.name ) && current.Value.name == "\"" + name + "\"" ) {
+					return current.Value;
+			}
+				if( null != current.Value.data["path"] && !string.IsNullOrEmpty( current.Value.data["path"].ToString() ) && current.Value.data["path"].ToString() == name ) {
+					return current.Value;
+				}
+				if( null != current.Value.data["path"] && !string.IsNullOrEmpty( current.Value.data["path"].ToString() ) && current.Value.data["path"].ToString() == "\"" + name + "\"" ) {
 					return current.Value;
 				}
 			}
@@ -680,7 +689,92 @@ namespace UnityEditor.XCodeEditor
 			return null;
 		}
 		
+		public PBXFileReference GetFileByID( string guid )
+		{
+			if( string.IsNullOrEmpty( guid ) ) {
+				return null;
+			}
 		
+			foreach (KeyValuePair<string, PBXFileReference> current in fileReferences) {
+				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid == guid ) {
+					return current.Value;
+				}
+			}
+
+			return null;
+		}
+
+		public string GetFileKey( string name )
+		{
+			if( string.IsNullOrEmpty( name ) ) {
+				return null;
+			}
+
+			foreach( KeyValuePair<string, PBXFileReference> current in fileReferences ) {
+				if( !string.IsNullOrEmpty( current.Value.name ) && current.Value.name == name ) {
+					return current.Key;
+				}
+				if( !string.IsNullOrEmpty( current.Value.name ) && current.Value.name == "\"" + name + "\"" ) {
+					return current.Key;
+				}
+				if( null != current.Value.data["path"] && !string.IsNullOrEmpty( current.Value.data["path"].ToString() ) && current.Value.data["path"].ToString() == name ) {
+					return current.Key;
+				}
+				if( null != current.Value.data["path"] && !string.IsNullOrEmpty( current.Value.data["path"].ToString() ) && current.Value.data["path"].ToString() == "\"" + name + "\"" ) {
+					return current.Key;
+				}
+			}
+
+			return null;
+		}
+
+		public PBXBuildFile GetBuildFile(PBXFileReference fileReference)
+		{
+			if (null == fileReference) {
+				return null;
+			}
+			foreach( KeyValuePair<string, PBXBuildFile> current in buildFiles ) {
+				if (!current.Value.data.ContainsKey("fileRef") || string.IsNullOrEmpty((string)current.Value.data["fileRef"])) {
+					continue;
+				}
+				if(current.Value.data["fileRef"].ToString() == fileReference.guid) {
+					return current.Value;
+				}
+			}
+			return null;
+		}
+
+		public PBXBuildFile GetBuildFileByID( string guid )
+		{
+			if( string.IsNullOrEmpty( guid ) ) {
+				return null;
+			}
+
+			foreach (KeyValuePair<string, PBXBuildFile> current in buildFiles) {
+				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid == guid ) {
+					return current.Value;
+				}
+			}
+
+			return null;
+		}
+
+		public string GetBuildFileKey(PBXFileReference fileReference)
+		{
+			if (null == fileReference) {
+				return null;
+			}
+			foreach( KeyValuePair<string, PBXBuildFile> current in buildFiles ) {
+				if (!current.Value.data.ContainsKey("fileRef") || string.IsNullOrEmpty((string)current.Value.data["fileRef"])) {
+					continue;
+				}
+				if(current.Value.data["fileRef"].ToString() == fileReference.guid) {
+					return current.Key;
+				}
+			}
+			return null;
+		}
+
 		public PBXGroup GetGroup( string name, string path = null, PBXGroup parent = null )
 		{
 //			Debug.Log( "GetGroup: " + name + ", " + path + ", " + parent );
@@ -734,6 +828,35 @@ namespace UnityEditor.XCodeEditor
 //        self.modified = True
 //
 //        return grp
+		}
+			
+		public PBXVariantGroup GetVariantGroup( string name, string path = null, PBXGroup parent = null )
+		{
+			if( string.IsNullOrEmpty( name ) )
+				return null;
+
+			if( parent == null )
+				parent = rootGroup;
+
+			foreach( KeyValuePair<string, PBXVariantGroup> current in variantGroups ) {
+
+				if( string.IsNullOrEmpty( current.Value.name ) ) { 
+					if( current.Value.path.CompareTo( name ) == 0 ) {
+						return current.Value;
+					}
+				}
+				else if( current.Value.name.CompareTo( name ) == 0 ) {
+					return current.Value;
+				}
+			}
+
+			PBXVariantGroup result = new PBXVariantGroup( name, path );
+			variantGroups.Add( result );
+			parent.AddChild( result );
+
+			modified = true;
+			return result;
+
 		}
 			
 		#endregion
