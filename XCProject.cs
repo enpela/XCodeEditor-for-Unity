@@ -146,7 +146,7 @@ namespace UnityEditor.XCodeEditor
 				return _groups;
 			}
 		}
-		
+
 		public PBXDictionary<PBXVariantGroup> variantGroups {
 			get {
 				if( _variantGroups == null ) {
@@ -677,7 +677,7 @@ namespace UnityEditor.XCodeEditor
 				}
 				if( !string.IsNullOrEmpty( current.Value.name ) && current.Value.name == "\"" + name + "\"" ) {
 					return current.Value;
-			}
+				}
 				if( null != current.Value.data["path"] && !string.IsNullOrEmpty( current.Value.data["path"].ToString() ) && current.Value.data["path"].ToString() == name ) {
 					return current.Value;
 				}
@@ -688,13 +688,13 @@ namespace UnityEditor.XCodeEditor
 			
 			return null;
 		}
-		
+
 		public PBXFileReference GetFileByID( string guid )
 		{
 			if( string.IsNullOrEmpty( guid ) ) {
 				return null;
 			}
-		
+
 			foreach (KeyValuePair<string, PBXFileReference> current in fileReferences) {
 				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid == guid ) {
 					return current.Value;
@@ -829,7 +829,7 @@ namespace UnityEditor.XCodeEditor
 //
 //        return grp
 		}
-			
+
 		public PBXVariantGroup GetVariantGroup( string name, string path = null, PBXGroup parent = null )
 		{
 			if( string.IsNullOrEmpty( name ) )
