@@ -1102,9 +1102,9 @@ namespace UnityEditor.XCodeEditor
 
 //			Debug.Log( "Configure build settings..." );
 			Hashtable buildSettings = mod.buildSettings;
-			if( buildSettings.ContainsKey("OTHER_LDFLAGS") )
+			if( null != buildSettings && buildSettings.ContainsKey("OTHER_LDFLAGS") )
 			{
-				Debug.Log( "    Adding other linker flags..." );
+//				Debug.Log( "    Adding other linker flags..." );
 				ArrayList otherLinkerFlags = (ArrayList) buildSettings["OTHER_LDFLAGS"];
 				foreach( string linker in otherLinkerFlags ) 
 				{
@@ -1115,15 +1115,15 @@ namespace UnityEditor.XCodeEditor
 				}
 			}
 
-			if( buildSettings.ContainsKey("GCC_ENABLE_CPP_EXCEPTIONS") )
+			if( null != buildSettings && buildSettings.ContainsKey("GCC_ENABLE_CPP_EXCEPTIONS") )
 			{
-				Debug.Log( "    GCC_ENABLE_CPP_EXCEPTIONS = " + buildSettings["GCC_ENABLE_CPP_EXCEPTIONS"] );
+//				Debug.Log( "    GCC_ENABLE_CPP_EXCEPTIONS = " + buildSettings["GCC_ENABLE_CPP_EXCEPTIONS"] );
 				this.GccEnableCppExceptions( (string) buildSettings["GCC_ENABLE_CPP_EXCEPTIONS"] );
 			}
 
-			if( buildSettings.ContainsKey("GCC_ENABLE_OBJC_EXCEPTIONS") )
+			if( null != buildSettings && buildSettings.ContainsKey("GCC_ENABLE_OBJC_EXCEPTIONS") )
 			{
-				Debug.Log( "    GCC_ENABLE_OBJC_EXCEPTIONS = " + buildSettings["GCC_ENABLE_OBJC_EXCEPTIONS"] );
+//				Debug.Log( "    GCC_ENABLE_OBJC_EXCEPTIONS = " + buildSettings["GCC_ENABLE_OBJC_EXCEPTIONS"] );
 				this.GccEnableObjCExceptions( (string) buildSettings["GCC_ENABLE_OBJC_EXCEPTIONS"] );
 			}
 
