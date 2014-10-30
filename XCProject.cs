@@ -699,7 +699,7 @@ namespace UnityEditor.XCodeEditor
 			}
 
 			foreach (KeyValuePair<string, PBXFileReference> current in fileReferences) {
-				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid == guid ) {
+				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid.ToUpper() == guid.ToUpper() ) {
 					return current.Value;
 				}
 			}
@@ -740,7 +740,7 @@ namespace UnityEditor.XCodeEditor
 				if (!current.Value.data.ContainsKey("fileRef") || string.IsNullOrEmpty((string)current.Value.data["fileRef"])) {
 					continue;
 				}
-				if(current.Value.data["fileRef"].ToString() == fileReference.guid) {
+				if(current.Value.data["fileRef"].ToString().ToUpper() == fileReference.guid.ToUpper()) {
 					return current.Value;
 				}
 			}
@@ -754,7 +754,7 @@ namespace UnityEditor.XCodeEditor
 			}
 
 			foreach (KeyValuePair<string, PBXBuildFile> current in buildFiles) {
-				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid == guid ) {
+				if ( !string.IsNullOrEmpty( current.Value.guid ) && current.Value.guid.ToUpper() == guid.ToUpper() ) {
 					return current.Value;
 				}
 			}
@@ -771,7 +771,7 @@ namespace UnityEditor.XCodeEditor
 				if (!current.Value.data.ContainsKey("fileRef") || string.IsNullOrEmpty((string)current.Value.data["fileRef"])) {
 					continue;
 				}
-				if(current.Value.data["fileRef"].ToString() == fileReference.guid) {
+				if(current.Value.data["fileRef"].ToString().ToUpper() == fileReference.guid.ToUpper()) {
 					return current.Key;
 				}
 			}
@@ -844,11 +844,11 @@ namespace UnityEditor.XCodeEditor
 			foreach( KeyValuePair<string, PBXVariantGroup> current in variantGroups ) {
 
 				if( string.IsNullOrEmpty( current.Value.name ) ) { 
-					if( current.Value.path.CompareTo( name ) == 0 ) {
+					if( current.Value.path.CompareTo( name ) == 0 && parent.HasChild( current.Key ) ) {
 						return current.Value;
 					}
 				}
-				else if( current.Value.name.CompareTo( name ) == 0 ) {
+				else if( current.Value.name.CompareTo( name ) == 0 && parent.HasChild( current.Key ) ) {
 					return current.Value;
 				}
 			}
